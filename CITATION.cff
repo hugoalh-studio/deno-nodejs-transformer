@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://citation-file-format.github.io/1.2.0/schema.json
+cff-version: "1.2.0"
+title: "Deno NodeJS Transformer"
+message: "If you use this software, please cite it using the metadata from this file."
+type: "software"
+authors:
+  - name: "hugoalh Studio"
+repository-code: "https://github.com/hugoalh-studio/deno-nodejs-transformer"
+keywords:
+  - "build"
+  - "builder"
+  - "transform"
+  - "transformer"
+  - "deno"
+  - "node"
+  - "nodejs"
+  - "package"
+license: "MIT"
