@@ -16,28 +16,29 @@ This is a modified edition of the JSR package [`dnt`](https://jsr.io/@deno/dnt) 
 
 ### 🎯 Targets
 
-|  | **HTTP** | **HTTPS** |
-|:--|:--|:--|
-| **[Deno](https://deno.land/)** >= v1.46.0 | ❌ | ✔️ |
+|  | **Remote** |
+|:--|:--|
+| **[Deno](https://deno.land/)** >= v1.46.0 | ✔️ |
 
 > [!NOTE]
 > - It is possible to use the module in other methods/ways which not listed in here, however those methods/ways are not officially supported, and should beware maybe cause security issues.
 
 ### #️⃣ Resources Identifier
 
-- **HTTPS - GitHub Raw:**
+- **Remote - GitHub Raw:**
   ```
   https://raw.githubusercontent.com/hugoalh-studio/deno-nodejs-transformer/{Tag}/mod.ts
   ```
 
 > [!NOTE]
-> - It is recommended to import the entire module with the main path `mod.ts`, however it is also able to import part of the module with sub path if available, but do not import if:
+> - For usage of remote resources, it is recommended to import the entire module with the main path `mod.ts`, however it is also able to import part of the module with sub path if available, but do not import if:
 >
 >   - it's path has an underscore prefix (e.g.: `_foo.ts`, `_util/bar.ts`), or
 >   - it is a benchmark or test file (e.g.: `foo.bench.ts`, `foo.test.ts`), or
 >   - it's symbol has an underscore prefix (e.g.: `_bar`, `_foo`).
 >
 >   These elements are not considered part of the public API, thus no stability is guaranteed for them.
+> - It is recommended to use the module with tag for immutability.
 
 ### 🛡️ Require Runtime Permissions
 
