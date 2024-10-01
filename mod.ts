@@ -29,7 +29,7 @@ import {
 export interface DenoNodeJSTransformerOptions {
 	/**
 	 * Whether to enable experimental support for emit type metadata for decorators which works with the NPM package {@linkcode https://www.npmjs.com/package/reflect-metadata reflect-metadata}.
-	 * @default false
+	 * @default {false}
 	 */
 	emitDecoratorMetadata?: boolean;
 	/**
@@ -43,12 +43,12 @@ export interface DenoNodeJSTransformerOptions {
 	filterDiagnostic?: BuildOptions["filterDiagnostic"];
 	/**
 	 * Whether to generate declaration files (`.d.ts`).
-	 * @default true
+	 * @default {true}
 	 */
 	generateDeclaration?: boolean;
 	/**
 	 * Whether to generate declaration map files (`.d.ts.map`).
-	 * @default false
+	 * @default {false}
 	 */
 	generateDeclarationMap?: boolean;
 	/**
@@ -61,7 +61,7 @@ export interface DenoNodeJSTransformerOptions {
 	lib?: LibName[];
 	/**
 	 * Whether to perform type check of declaration files (those in dependencies).
-	 * @default false
+	 * @default {false}
 	 */
 	libCheck?: boolean;
 	/**
@@ -97,17 +97,17 @@ export interface DenoNodeJSTransformerOptions {
 	metadata: Metadata;
 	/**
 	 * Directory of the output, by relative directory path under the {@linkcode root}.
-	 * @default "nodejs"
+	 * @default {"nodejs"}
 	 */
 	outputDirectory?: string;
 	/**
 	 * Whether to empty the {@linkcode outputDirectory} before the transform.
-	 * @default false
+	 * @default {false}
 	 */
 	outputDirectoryPreEmpty?: boolean;
 	/**
 	 * Workspace, by absolute directory path.
-	 * @default Deno.cwd()
+	 * @default {Deno.cwd()}
 	 */
 	root?: string;
 	/**
@@ -116,12 +116,12 @@ export interface DenoNodeJSTransformerOptions {
 	shims?: DenoNodeJSTransformerShimOptions;
 	/**
 	 * Target ECMAScript version.
-	 * @default "ES2022"
+	 * @default {"ES2022"}
 	 */
 	target?: ScriptTarget;
 	/**
 	 * Whether to use NPM package {@linkcode https://www.npmjs.com/package/tslib tslib} to import helper functions once per project instead of include them per-file if necessary.
-	 * @default false
+	 * @default {false}
 	 */
 	useTSLibHelper?: boolean;
 	noImplicitAny?: boolean;
@@ -227,7 +227,7 @@ export async function invokeDenoNodeJSTransformer(options: DenoNodeJSTransformer
 		}
 		// Snapshot original files path for move files.
 		const outputDirectoryESM: string = pathJoin(outputDirectory, "esm");
-		const outputDirectoryESMFilesPathSnapshot: FSWalkEntry[] = await Array.fromAsync(walkFS(outputDirectoryESM, { includeRoot: false }));
+		const outputDirectoryESMFilesPathSnapshot: FSWalkEntry[] = await Array.fromAsync(walkFS(outputDirectoryESM));
 		const renameToken: string = ((): string => {
 			let token: string;
 			do {
@@ -251,7 +251,7 @@ export async function invokeDenoNodeJSTransformer(options: DenoNodeJSTransformer
 			await Deno.rename(pathJoin(outputDirectoryESM, pathRelative), pathJoin(pathNewDir, `${renameToken}${name}`));
 		}
 		// Snapshot files path again for rename moved files.
-		const outputDirectoryFilesPathSnapshot: FSWalkEntry[] = await Array.fromAsync(walkFS(outputDirectory, { includeRoot: false }));
+		const outputDirectoryFilesPathSnapshot: FSWalkEntry[] = await Array.fromAsync(walkFS(outputDirectory));
 		for (const {
 			isFile,
 			name,

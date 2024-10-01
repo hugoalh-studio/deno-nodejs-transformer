@@ -7,24 +7,23 @@ import { isAbsolute as pathIsAbsolute } from "jsr:@std/path@^1.0.6/is-absolute";
 import { join as pathJoin } from "jsr:@std/path@^1.0.6/join";
 import { normalize as pathNormalize } from "jsr:@std/path@^1.0.6/normalize";
 import { relative as pathRelative } from "jsr:@std/path@^1.0.6/relative";
-export interface FSWalkOptions extends WalkOptions {
-	/**
-	 * Whether the root should include in the yield entries.
-	 * @default true
-	 */
-	includeRoot?: boolean;
-}
 export interface FSWalkEntry {
 	/**
-	 * Whether entry is a regular directory. Mutually exclusive to {@linkcode isFile} and {@linkcode isSymlink}.
+	 * Whether entry is a regular directory.
+	 * 
+	 * Mutually exclusive to {@linkcode isFile} and {@linkcode isSymlink}.
 	 */
 	isDirectory: boolean;
 	/**
-	 * Whether entry is a regular file. Mutually exclusive to {@linkcode isDirectory} and {@linkcode isSymlink}.
+	 * Whether entry is a regular file.
+	 * 
+	 * Mutually exclusive to {@linkcode isDirectory} and {@linkcode isSymlink}.
 	 */
 	isFile: boolean;
 	/**
-	 * Whether entry is a symlink. Mutually exclusive to {@linkcode isDirectory} and {@linkcode isFile}.
+	 * Whether entry is a symlink.
+	 * 
+	 * Mutually exclusive to {@linkcode isDirectory} and {@linkcode isFile}.
 	 */
 	isSymlink: boolean;
 	/**
@@ -40,7 +39,7 @@ export interface FSWalkEntry {
 	 */
 	pathRelative: string;
 }
-async function* walkFSIterator(fsWalker: AsyncIterableIterator<WalkEntry>, pathRootAbsolute: string, includeRoot = true): AsyncGenerator<FSWalkEntry> {
+async function* walkFSIterator(fsWalker: AsyncIterableIterator<WalkEntry>, pathRootAbsolute: string): AsyncGenerator<FSWalkEntry> {
 	for await (const {
 		isDirectory,
 		isFile,
@@ -48,7 +47,7 @@ async function* walkFSIterator(fsWalker: AsyncIterableIterator<WalkEntry>, pathR
 		name,
 		path
 	} of fsWalker) {
-		if (isDirectory && path === pathRootAbsolute && !includeRoot) {
+		if (isDirectory && path === pathRootAbsolute) {
 			continue;
 		}
 		yield {
@@ -61,7 +60,7 @@ async function* walkFSIterator(fsWalker: AsyncIterableIterator<WalkEntry>, pathR
 		};
 	}
 }
-export function walkFS(pathRoot: string, options: FSWalkOptions = {}): AsyncGenerator<FSWalkEntry> {
+export function walkFS(pathRoot: string, options: WalkOptions = {}): AsyncGenerator<FSWalkEntry> {
 	const pathRootAbsolute: string = pathNormalize(pathIsAbsolute(pathRoot) ? pathRoot : pathJoin(Deno.cwd(), pathRoot));
-	return walkFSIterator(fsWalk(pathRootAbsolute, options), pathRootAbsolute, options.includeRoot);
+	return walkFSIterator(fsWalk(pathRootAbsolute, options), pathRootAbsolute);
 }

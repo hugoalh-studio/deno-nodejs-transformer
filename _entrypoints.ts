@@ -4,7 +4,7 @@ import { sortObject } from "./_sort_object.ts";
 export interface DenoNodeJSTransformerEntrypoint {
 	/**
 	 * Whether this is an executable entrypoint.
-	 * @default false
+	 * @default {false}
 	 */
 	executable?: boolean;
 	/**

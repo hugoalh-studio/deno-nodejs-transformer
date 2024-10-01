@@ -2,12 +2,12 @@ import { partition } from "jsr:@std/collections@^1.0.6/partition";
 export interface SortObjectOptions {
 	/**
 	 * Which "cending" the rest keys (i.e.: not specified keys) should use to sort. Define negative number for ascending, otherwise for descending.
-	 * @default -1
+	 * @default {-1}
 	 */
 	orderRestCending?: number;
 	/**
 	 * Which position the rest keys (i.e.: not specified keys) should place with the specified keys. Define negative number for place before, otherwise for place after.
-	 * @default 1
+	 * @default {1}
 	 */
 	orderRestPosition?: number;
 	/**

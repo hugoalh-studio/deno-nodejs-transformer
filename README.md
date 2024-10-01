@@ -4,7 +4,7 @@
 
 [![GitHub: hugoalh-studio/deno-nodejs-transformer](https://img.shields.io/github/v/release/hugoalh-studio/deno-nodejs-transformer?label=hugoalh-studio/deno-nodejs-transformer&labelColor=181717&logo=github&logoColor=ffffff&sort=semver&style=flat "GitHub: hugoalh-studio/deno-nodejs-transformer")](https://github.com/hugoalh-studio/deno-nodejs-transformer)
 
-A Deno module for transform Deno package to NodeJS package.
+A Deno module for transform the Deno package to the NodeJS package.
 
 This is a modified edition of the JSR package [`dnt`](https://jsr.io/@deno/dnt) which aim for:
 
@@ -21,7 +21,7 @@ This is a modified edition of the JSR package [`dnt`](https://jsr.io/@deno/dnt) 
 | **[Deno](https://deno.land/)** >= v1.46.0 | ✔️ |
 
 > [!NOTE]
-> - It is possible to use the module in other methods/ways which not listed in here, however those methods/ways are not officially supported, and should beware maybe cause security issues.
+> - It is possible to use this module in other methods/ways which not listed in here, however those methods/ways are not officially supported, and should beware maybe cause security issues.
 
 ### #️⃣ Resources Identifier
 
@@ -38,7 +38,7 @@ This is a modified edition of the JSR package [`dnt`](https://jsr.io/@deno/dnt) 
 >   - it's symbol has an underscore prefix (e.g.: `_bar`, `_foo`).
 >
 >   These elements are not considered part of the public API, thus no stability is guaranteed for them.
-> - It is recommended to use the module with tag for immutability.
+> - It is recommended to use this module with tag for immutability.
 
 ### 🛡️ Require Runtime Permissions
 
@@ -59,6 +59,13 @@ This is a modified edition of the JSR package [`dnt`](https://jsr.io/@deno/dnt) 
 ### Functions
 
 - `invokeDenoNodeJSTransformer`
+
+### Interfaces / Types
+
+- `DenoNodeJSTransformerEntrypoint`
+- `DenoNodeJSTransformerOptions`
+- `DenoNodeJSTransformerShimOptions`
+- `Metadata`
 
 ## ✍️ Examples
 

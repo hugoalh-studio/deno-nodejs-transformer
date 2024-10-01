@@ -6,50 +6,51 @@ export interface DenoNodeJSTransformerShimOptions extends Omit<ShimOptions, "cus
 	/**
 	 * Shim `Blob`.
 	 * 
-	 * This value should define to `true` if the target NodeJS version is not 18 or greater.
-	 * @default false
+	 * This property should define to `true` if the target NodeJS version is not 18 or greater.
+	 * @default {false}
 	 */
 	blob?: boolean;
 	/**
 	 * Shim `crypto`.
 	 * 
-	 * This value should define to `true` if the target NodeJS version is not 16 or greater.
-	 * @default false
+	 * This property should define to `true` if the target NodeJS version is not 16 or greater.
+	 * @default {false}
 	 */
 	crypto?: boolean;
 	/**
 	 * Shim `Deno` namespace.
-	 * @default true
+	 * @default {true}
 	 */
 	deno?: boolean;
 	/**
 	 * Shim `DOMException` via the NPM package {@linkcode https://www.npmjs.com/package/domexception domexception}.
-	 * @default false
+	 * @default {false}
 	 */
 	domException?: boolean;
 	/**
 	 * Shim `alert`, `confirm`, and `prompt`.
-	 * @default true
+	 * @default {true}
 	 */
 	prompts?: boolean;
 	/**
 	 * Shim `fetch`, `File`, `FormData`, `Headers`, `Request`, and `Response` via the NPM package {@linkcode https://www.npmjs.com/package/undici undici}.
 	 * 
-	 * This value should define to `true` if the target NodeJS version is not 18 or greater.
-	 * @default false
+	 * This property should define to `true` if the target NodeJS version is not 18 or greater.
+	 * @default {false}
 	 */
 	undici?: boolean;
 	/**
 	 * Shim `WeakRef`.
 	 * 
-	 * This value should define to `true` if the target NodeJS version is not 14 or greater; Some of the sub features only available on NodeJS version 20 or greater.
-	 * @default false
+	 * This property should define to `true` if the target NodeJS version is not 14 or greater; Some of the sub features only available on NodeJS version 20 or greater.
+	 * @default {false}
 	 */
 	weakRef?: boolean;
 	/**
 	 * Shim `WebSocket` via the NPM package {@linkcode https://www.npmjs.com/package/ws ws}.
 	 * 
-	 * This value should define to `true` if the target NodeJS version is not 22 or greater.
+	 * This property should define to `true` if the target NodeJS version is not 22 or greater.
+	 * @default {false}
 	 */
 	webSocket?: boolean;
 	/**
