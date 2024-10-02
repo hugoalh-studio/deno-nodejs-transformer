@@ -1,3 +1,4 @@
+import { copy as copyFS } from "jsr:@std/fs@^1.0.4/copy";
 import { emptyDir as emptyFSDir } from "jsr:@std/fs@^1.0.4/empty-dir";
 import { ensureDir as ensureFSDir } from "jsr:@std/fs@^1.0.4/ensure-dir";
 import { exists as isFSExists } from "jsr:@std/fs@^1.0.4/exists";
@@ -26,7 +27,15 @@ import {
 	type ScriptTarget,
 	type SpecifierMappings
 } from "./deps.ts";
+export interface DenoNodeJSTransformerAssetsCopyOptions {
+	from: string;
+	to: string;
+}
 export interface DenoNodeJSTransformerOptions {
+	/**
+	 * Copy assets after the build, by relative path under the {@linkcode root}.
+	 */
+	assetsCopy?: (string | DenoNodeJSTransformerAssetsCopyOptions)[];
 	/**
 	 * Whether to enable experimental support for emit type metadata for decorators which works with the NPM package {@linkcode https://www.npmjs.com/package/reflect-metadata reflect-metadata}.
 	 * @default {false}
@@ -137,6 +146,7 @@ export interface DenoNodeJSTransformerOptions {
 }
 export async function invokeDenoNodeJSTransformer(options: DenoNodeJSTransformerOptions): Promise<void> {
 	const {
+		assetsCopy = [],
 		emitDecoratorMetadata = false,
 		entrypoints,
 		filterDiagnostic,
@@ -266,6 +276,13 @@ export async function invokeDenoNodeJSTransformer(options: DenoNodeJSTransformer
 			entrypoints: entrypointsFmt.metadata,
 			metadataPath: joinPath(outputDirectory, "package.json")
 		});
+		for (const element of assetsCopy) {
+			if (typeof element === "string") {
+				await copyFS(element, joinPath(outputDirectory, element), { overwrite: true });
+			} else {
+				await copyFS(element.from, joinPath(outputDirectory, element.to), { overwrite: true });
+			}
+		}
 	} finally {
 		Deno.chdir(rootOriginal);
 	}

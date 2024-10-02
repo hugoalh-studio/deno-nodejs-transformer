@@ -62,6 +62,7 @@ This is a modified edition of the JSR package [`dnt`](https://jsr.io/@deno/dnt) 
 
 ### Interfaces / Types
 
+- `DenoNodeJSTransformerAssetsCopyOptions`
 - `DenoNodeJSTransformerEntrypoint`
 - `DenoNodeJSTransformerOptions`
 - `DenoNodeJSTransformerShimOptions`
