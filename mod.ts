@@ -1,8 +1,8 @@
-import { emptyDir as fsEmptyDir } from "jsr:@std/fs@^1.0.3/empty-dir";
-import { ensureDir as fsEnsureDir } from "jsr:@std/fs@^1.0.3/ensure-dir";
-import { exists as fsExists } from "jsr:@std/fs@^1.0.3/exists";
-import { dirname as pathDirname } from "jsr:@std/path@^1.0.6/dirname";
-import { join as pathJoin } from "jsr:@std/path@^1.0.6/join";
+import { emptyDir as emptyFSDir } from "jsr:@std/fs@^1.0.4/empty-dir";
+import { ensureDir as ensureFSDir } from "jsr:@std/fs@^1.0.4/ensure-dir";
+import { exists as isFSExists } from "jsr:@std/fs@^1.0.4/exists";
+import { dirname as getPathDirname } from "jsr:@std/path@^1.0.6/dirname";
+import { join as joinPath } from "jsr:@std/path@^1.0.6/join";
 import {
 	resolveEntrypoints,
 	type DenoNodeJSTransformerEntrypoint
@@ -167,9 +167,9 @@ export async function invokeDenoNodeJSTransformer(options: DenoNodeJSTransformer
 	const rootOriginal: string = Deno.cwd();
 	try {
 		Deno.chdir(root);
-		await fsEnsureDir(outputDirectory);
+		await ensureFSDir(outputDirectory);
 		if (outputDirectoryPreEmpty) {
-			await fsEmptyDir(outputDirectory);
+			await emptyFSDir(outputDirectory);
 		}
 		const entrypointsFmt = resolveEntrypoints(entrypoints, generateDeclaration);
 		await build({
@@ -218,15 +218,15 @@ export async function invokeDenoNodeJSTransformer(options: DenoNodeJSTransformer
 			"src",
 			"types"
 		]) {
-			const subpathRelative: string = pathJoin(outputDirectory, subpath);
-			if (await fsExists(subpathRelative)) {
+			const subpathRelative: string = joinPath(outputDirectory, subpath);
+			if (await isFSExists(subpathRelative)) {
 				await Deno.remove(subpathRelative, { recursive: true }).catch((reason: unknown): void => {
 					console.error(reason);
 				});
 			}
 		}
 		// Snapshot original files path for move files.
-		const outputDirectoryESM: string = pathJoin(outputDirectory, "esm");
+		const outputDirectoryESM: string = joinPath(outputDirectory, "esm");
 		const outputDirectoryESMFilesPathSnapshot: FSWalkEntry[] = await Array.fromAsync(walkFS(outputDirectoryESM));
 		const renameToken: string = ((): string => {
 			let token: string;
@@ -246,9 +246,9 @@ export async function invokeDenoNodeJSTransformer(options: DenoNodeJSTransformer
 				continue;
 			}
 			// Move files with rename to prevent overwrite original files which not yet moved.
-			const pathNewDir: string = pathJoin(outputDirectory, pathDirname(pathRelative));
-			await fsEnsureDir(pathNewDir);
-			await Deno.rename(pathJoin(outputDirectoryESM, pathRelative), pathJoin(pathNewDir, `${renameToken}${name}`));
+			const pathNewDir: string = joinPath(outputDirectory, getPathDirname(pathRelative));
+			await ensureFSDir(pathNewDir);
+			await Deno.rename(joinPath(outputDirectoryESM, pathRelative), joinPath(pathNewDir, `${renameToken}${name}`));
 		}
 		// Snapshot files path again for rename moved files.
 		const outputDirectoryFilesPathSnapshot: FSWalkEntry[] = await Array.fromAsync(walkFS(outputDirectory));
@@ -260,11 +260,11 @@ export async function invokeDenoNodeJSTransformer(options: DenoNodeJSTransformer
 			if (!(isFile && name.startsWith(renameToken))) {
 				continue;
 			}
-			await Deno.rename(pathJoin(outputDirectory, pathRelative), pathJoin(outputDirectory, pathDirname(pathRelative), name.slice(renameToken.length)));
+			await Deno.rename(joinPath(outputDirectory, pathRelative), joinPath(outputDirectory, getPathDirname(pathRelative), name.slice(renameToken.length)));
 		}
 		await refactorMetadata({
 			entrypoints: entrypointsFmt.metadata,
-			metadataPath: pathJoin(outputDirectory, "package.json")
+			metadataPath: joinPath(outputDirectory, "package.json")
 		});
 	} finally {
 		Deno.chdir(rootOriginal);

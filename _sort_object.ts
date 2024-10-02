@@ -1,4 +1,4 @@
-import { partition } from "jsr:@std/collections@^1.0.6/partition";
+import { partition } from "jsr:@std/collections@^1.0.7/partition";
 export interface SortObjectOptions {
 	/**
 	 * Which "cending" the rest keys (i.e.: not specified keys) should use to sort. Define negative number for ascending, otherwise for descending.
