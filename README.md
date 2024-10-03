@@ -4,7 +4,7 @@
 
 [![GitHub: hugoalh-studio/deno-nodejs-transformer](https://img.shields.io/github/v/release/hugoalh-studio/deno-nodejs-transformer?label=hugoalh-studio/deno-nodejs-transformer&labelColor=181717&logo=github&logoColor=ffffff&sort=semver&style=flat "GitHub: hugoalh-studio/deno-nodejs-transformer")](https://github.com/hugoalh-studio/deno-nodejs-transformer)
 
-A Deno module for transform the Deno package to the NodeJS package.
+A Deno module for transform Deno package to NodeJS package.
 
 This is a modified edition of the JSR package [`dnt`](https://jsr.io/@deno/dnt) which aim for:
 
