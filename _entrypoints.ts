@@ -95,7 +95,7 @@ export function resolveEntrypoints(entrypoints: DenoNodeJSTransformerEntrypoint[
 	});
 	const entrypointsMain: DenoNodeJSTransformerEntrypointFmt | undefined = (entrypointsMainIndex < 0) ? undefined : entrypointsExports[entrypointsMainIndex];
 	const entrypointsRest: DenoNodeJSTransformerEntrypointFmt[] = (entrypointsMainIndex < 0) ? entrypointsExports : entrypointsExports.toSpliced(entrypointsMainIndex, 1);
-	const entrypointsMetadataExports: MetadataEntrypoints["exports"] = sortObject(Object.fromEntries(entrypointsRest.map(({
+	let entrypointsMetadataExports: MetadataEntrypoints["exports"] = (entrypointsRest.length > 0) ? sortObject(Object.fromEntries(entrypointsRest.map(({
 		name,
 		pathDeclaration,
 		pathScript
@@ -109,8 +109,9 @@ export function resolveEntrypoints(entrypoints: DenoNodeJSTransformerEntrypoint[
 				}
 			}
 		];
-	})));
+	}))) : undefined;
 	if (typeof entrypointsMain !== "undefined") {
+		entrypointsMetadataExports = {};
 		entrypointsMetadataExports[entrypointsMain.name] = {
 			import: {
 				types: entrypointsMain.pathDeclaration,
@@ -131,12 +132,12 @@ export function resolveEntrypoints(entrypoints: DenoNodeJSTransformerEntrypoint[
 			};
 		}),
 		metadata: {
-			bin: sortObject(Object.fromEntries(entrypointsBin.map(({
+			bin: (entrypointsBin.length > 0) ? sortObject(Object.fromEntries(entrypointsBin.map(({
 				name,
 				pathScript
 			}: DenoNodeJSTransformerEntrypointFmt): [string, string] => {
 				return [name, pathScript];
-			}))),
+			}))) : undefined,
 			main: entrypointsMain?.pathScript,
 			module: entrypointsMain?.pathScript,
 			exports: entrypointsMetadataExports,
