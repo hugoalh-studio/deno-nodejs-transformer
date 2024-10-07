@@ -2,6 +2,7 @@ import { copy as copyFS } from "jsr:@std/fs@^1.0.4/copy";
 import { emptyDir as emptyFSDir } from "jsr:@std/fs@^1.0.4/empty-dir";
 import { ensureDir as ensureFSDir } from "jsr:@std/fs@^1.0.4/ensure-dir";
 import { exists as isFSExists } from "jsr:@std/fs@^1.0.4/exists";
+import { parse as parseJSONC } from "jsr:@std/jsonc@^1.0.1/parse";
 import { dirname as getPathDirname } from "jsr:@std/path@^1.0.6/dirname";
 import { join as joinPath } from "jsr:@std/path@^1.0.6/join";
 import {
@@ -286,4 +287,20 @@ export async function invokeDenoNodeJSTransformer(options: DenoNodeJSTransformer
 	} finally {
 		Deno.chdir(rootOriginal);
 	}
+}
+export default invokeDenoNodeJSTransformer;
+export async function getEntrypointsFromConfig(filePath: string = "deno.jsonc"): Promise<Required<DenoNodeJSTransformerOptions["entrypoints"]>> {
+	const configContext = parseJSONC(await Deno.readTextFile(filePath));
+	if (!(typeof configContext === "object" && !Array.isArray(configContext) && configContext !== null && typeof configContext.exports === "object" && !Array.isArray(configContext.exports) && configContext.exports !== null)) {
+		throw new Error(`Configuration file \`${filePath}\` does not contain a valid property \`exports\`!`);
+	}
+	return Object.entries(configContext.exports).map(([key, value]) => {
+		if (typeof value !== "string") {
+			throw new TypeError(`\`${value}\` (export \`${key}\`) is not a valid export!`);
+		}
+		return {
+			name: key,
+			path: value.replace(/^\.\//, "")
+		};
+	});
 }
