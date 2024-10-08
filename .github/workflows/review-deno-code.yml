@@ -30,7 +30,7 @@ jobs:
       CDV_RUN_LITE: "${{matrix.runon != 'ubuntu-latest'}}"
     steps:
       - name: "Checkout Repository"
-        uses: "actions/checkout@v4.2.0"
+        uses: "actions/checkout@v4.2.1"
       - name: "Setup Deno"
         uses: "denoland/setup-deno@v1.5.1"
         with:
@@ -123,20 +123,20 @@ jobs:
       #       Write-Warning -Message 'Found dependencies that need to update!'
       #     }
       - name: "Check Deployment For Remote Import"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success'}}"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false'}}"
         shell: "pwsh"
         run: |-
           Get-ChildItem -LiteralPath '.\' -File -Recurse -Name
       - name: "Check Deployment For JSR"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.jsr-check == 'true'}}"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.jsr-check == 'true'}}"
         run: |-
           deno task jsr-check
       - name: "Build Package For NPM"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.npm-build == 'true'}}"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.npm-build == 'true'}}"
         run: |-
           deno task npm-build
       - name: "Check Deployment For NPM"
-        if: "${{!cancelled() && steps.analyze.outcome == 'success' && steps.analyze.outputs.npm-build == 'true'}}"
+        if: "${{!cancelled() && steps.analyze.outcome == 'success' && env.CDV_RUN_LITE == 'false' && steps.analyze.outputs.npm-build == 'true'}}"
         working-directory: "${{steps.analyze.outputs.npm-root}}"
         run: |-
           npm publish --dry-run
