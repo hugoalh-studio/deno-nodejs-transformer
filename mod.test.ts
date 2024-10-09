@@ -16,6 +16,7 @@ Deno.test("Main", {
 			name: ".",
 			path: "mod.ts"
 		}],
+		generateDeclarationMap: true,
 		metadata: {
 			name: "@hugoalh/deno-nodejs-transformer-test",
 			version: "0.1.0",
