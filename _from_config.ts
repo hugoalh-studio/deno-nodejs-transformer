@@ -37,5 +37,5 @@ class MetadataFromConfig {
 	}
 }
 export async function getMetadataFromConfig(filePath: string = "deno.jsonc"): Promise<MetadataFromConfig> {
-	return new MetadataFromConfig(filePath, (parseJSONC(await Deno.readTextFile(filePath))));
+	return new MetadataFromConfig(filePath, parseJSONC(await Deno.readTextFile(filePath)));
 }
