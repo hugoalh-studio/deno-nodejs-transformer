@@ -29,6 +29,12 @@ class MetadataFromConfig {
 			};
 		});
 	}
+	get name(): string {
+		if (typeof this.#context.name !== "string") {
+			throw new Error(`Configuration file \`${this.#filePath}\` does not contain a valid property \`name\`!`);
+		}
+		return this.#context.name;
+	}
 	get version(): string {
 		if (typeof this.#context.version !== "string") {
 			throw new Error(`Configuration file \`${this.#filePath}\` does not contain a valid property \`version\`!`);
