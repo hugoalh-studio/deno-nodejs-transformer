@@ -15,7 +15,7 @@ class MetadataFromConfig {
 		this.#context = context;
 		this.#filePath = filePath;
 	}
-	get exports(): DenoNodeJSTransformerEntrypoint[] {
+	getExports(): DenoNodeJSTransformerEntrypoint[] {
 		if (!(typeof this.#context.exports === "object" && !Array.isArray(this.#context.exports) && this.#context.exports !== null)) {
 			throw new Error(`Configuration file \`${this.#filePath}\` does not contain a valid property \`exports\`!`);
 		}
@@ -29,13 +29,13 @@ class MetadataFromConfig {
 			};
 		});
 	}
-	get name(): string {
+	getName(): string {
 		if (typeof this.#context.name !== "string") {
 			throw new Error(`Configuration file \`${this.#filePath}\` does not contain a valid property \`name\`!`);
 		}
 		return this.#context.name;
 	}
-	get version(): string {
+	getVersion(): string {
 		if (typeof this.#context.version !== "string") {
 			throw new Error(`Configuration file \`${this.#filePath}\` does not contain a valid property \`version\`!`);
 		}
