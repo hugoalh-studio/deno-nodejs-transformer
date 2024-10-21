@@ -111,7 +111,7 @@ export function resolveEntrypoints(entrypoints: DenoNodeJSTransformerEntrypoint[
 		];
 	}))) : undefined;
 	if (typeof entrypointsMain !== "undefined") {
-		entrypointsMetadataExports = {};
+		entrypointsMetadataExports ??= {};
 		entrypointsMetadataExports[entrypointsMain.name] = {
 			import: {
 				types: entrypointsMain.pathDeclaration,
