@@ -43,6 +43,8 @@ This is a modified edition of the JSR package [`dnt`](https://jsr.io/@deno/dnt) 
 ### 🛡️ Require Runtime Permissions
 
 - [Deno](https://docs.deno.com/runtime/fundamentals/security/)
+  - Environment Variable (`env`)
+    - *Resources*
   - File System - Read (`read`)
     - *Resources*
   - File System - Write (`write`)
@@ -52,21 +54,44 @@ This is a modified edition of the JSR package [`dnt`](https://jsr.io/@deno/dnt) 
 
 ## 🧩 APIs (Excerpt)
 
+- ```ts
+  function invokeDenoNodeJSTransformer(options: DenoNodeJSTransformerOptions): Promise<void>;
+  ```
+- ```ts
+  interface DenoNodeJSTransformerOptions {
+    assetsCopy?: (string | DenoNodeJSTransformerAssetsCopyOptions)[];
+    emitDecoratorMetadata?: boolean;
+    entrypoints: DenoNodeJSTransformerEntrypoint[];
+    filterDiagnostic?: BuildOptions["filterDiagnostic"];
+    generateDeclaration?: boolean;
+    generateDeclarationMap?: boolean;
+    importsMap?: string;
+    lib?: LibName[];
+    libCheck?: boolean;
+    mappings?: SpecifierMappings;
+    metadata: Metadata;
+    outputDirectory?: string;
+    outputDirectoryPreEmpty?: boolean;
+    root?: string;
+    shims?: DenoNodeJSTransformerShimOptions;
+    target?: ScriptTarget;
+    useTSLibHelper?: boolean;
+    noImplicitAny?: boolean;
+    noImplicitReturns?: boolean;
+    noImplicitThis?: boolean;
+    noStrictGenericChecks?: boolean;
+    noUncheckedIndexedAccess?: boolean;
+    strictBindCallApply?: boolean;
+    strictFunctionTypes?: boolean;
+    strictNullChecks?: boolean;
+    strictPropertyInitialization?: boolean;
+    useUnknownInCatchVariables?: boolean;
+  }
+  ```
+
 > [!NOTE]
-> - For the prettier documentation, can visit via:
+> - For the full and prettier documentation, can visit via:
 >   - [Deno CLI `deno doc`](https://docs.deno.com/runtime/reference/cli/documentation_generator/)
-
-### Functions
-
-- `invokeDenoNodeJSTransformer`
-
-### Interfaces / Types
-
-- `DenoNodeJSTransformerAssetsCopyOptions`
-- `DenoNodeJSTransformerEntrypoint`
-- `DenoNodeJSTransformerOptions`
-- `DenoNodeJSTransformerShimOptions`
-- `Metadata`
 
 ## ✍️ Examples
 

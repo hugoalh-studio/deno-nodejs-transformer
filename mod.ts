@@ -27,7 +27,10 @@ import {
 	type ScriptTarget,
 	type SpecifierMappings
 } from "./deps.ts";
-export { getMetadataFromConfig } from "./_from_config.ts";
+export {
+	getMetadataFromConfig,
+	MetadataFromConfig
+} from "./_from_config.ts";
 export interface DenoNodeJSTransformerAssetsCopyOptions {
 	from: string;
 	to: string;
@@ -48,7 +51,8 @@ export interface DenoNodeJSTransformerOptions {
 	entrypoints: DenoNodeJSTransformerEntrypoint[];
 	/**
 	 * Filter out diagnostics that want to ignore during type check and emit.
-	 * @returns Return `true` to surface the diagnostic, or return `false` to ignore it.
+	 * 
+	 * Return `true` to surface the diagnostic, or return `false` to ignore it.
 	 */
 	filterDiagnostic?: BuildOptions["filterDiagnostic"];
 	/**
@@ -78,7 +82,7 @@ export interface DenoNodeJSTransformerOptions {
 	 * Remap specifiers.
 	 * 
 	 * This can be redirect to a NodeJS specific file:
-	 *
+	 * 
 	 * ```ts
 	 * {
 	 *   mappings: {
@@ -86,9 +90,9 @@ export interface DenoNodeJSTransformerOptions {
 	 *   }
 	 * }
 	 * ```
-	 *
+	 * 
 	 * Or remap to an NPM package:
-	 *
+	 * 
 	 * ```ts
 	 * {
 	 *   mappings: {

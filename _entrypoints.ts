@@ -1,36 +1,30 @@
 import { partition } from "jsr:@std/collections@^1.0.7/partition";
-import type { EntryPoint } from "./deps.ts";
 import { sortObject } from "./_sort_object.ts";
+import type { EntryPoint } from "./deps.ts";
 export interface DenoNodeJSTransformerEntrypoint {
 	/**
-	 * Whether this is an executable entrypoint.
+	 * Whether the entrypoint is for executable.
 	 * @default {false}
 	 */
 	executable?: boolean;
 	/**
-	 * Name of the entrypoint. Use `.` for the default export entrypoint.
+	 * Name of the entrypoint.
+	 * 
+	 * Use `.` for the default entrypoint.
 	 */
 	name: string;
 	/**
-	 * Relative file path to the entrypoint.
+	 * Relative file path of the entrypoint.
 	 */
 	path: string;
 }
-interface DenoNodeJSTransformerEntrypointFmt {
+interface DenoNodeJSTransformerEntrypointFmt extends Required<Omit<DenoNodeJSTransformerEntrypoint, "path">> {
 	/**
-	 * Whether this is an executable entrypoint.
-	 */
-	executable: boolean;
-	/**
-	 * Name of the entrypoint. Use `.` for the default export entrypoint.
-	 */
-	name: string;
-	/**
-	 * Relative declaration file path to the entrypoint.
+	 * Relative declaration file path of the entrypoint.
 	 */
 	pathDeclaration?: string;
 	/**
-	 * Relative script file path to the entrypoint.
+	 * Relative script file path of the entrypoint.
 	 */
 	pathScript: string;
 }
@@ -42,7 +36,7 @@ export interface MetadataEntrypoints {
 		[x: string]: {
 			[x: string]: {
 				types?: string;
-				[x: string]: string | undefined;
+				default: string;
 			};
 		};
 	};
@@ -53,7 +47,7 @@ export function resolveEntrypoints(entrypoints: DenoNodeJSTransformerEntrypoint[
 	metadata: MetadataEntrypoints;
 } {
 	if (entrypoints.length === 0) {
-		throw new Error("Missing entrypoints!");
+		throw new ReferenceError(`Entrypoints are not defined!`);
 	}
 	const entrypointsFmt: DenoNodeJSTransformerEntrypointFmt[] = entrypoints.map(({
 		executable = false,

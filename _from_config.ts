@@ -1,27 +1,33 @@
 import {
+	isJSONObject,
+	type JSONObject,
+	type JSONValue
+} from "https://raw.githubusercontent.com/hugoalh-studio/is-json-es/v1.0.3/mod.ts";
+import {
 	parse as parseJSONC,
 	type JsonValue
 } from "jsr:@std/jsonc@^1.0.1/parse";
 import type { DenoNodeJSTransformerEntrypoint } from "./_entrypoints.ts";
-class MetadataFromConfig {
-	#context: {
-		[key: string]: JsonValue | undefined;
-	};
+export class MetadataFromConfig {
+	get [Symbol.toStringTag](): string {
+		return "MetadataFromConfig";
+	}
+	#context: JSONObject;
 	#filePath: string;
-	constructor(filePath: string, context: JsonValue) {
-		if (!(typeof context === "object" && !Array.isArray(context) && context !== null)) {
+	private constructor(filePath: string, context: JsonValue) {
+		if (!isJSONObject(context)) {
 			throw new Error(`\`${filePath}\` is not a valid configuration file!`);
 		}
 		this.#context = context;
 		this.#filePath = filePath;
 	}
 	getExports(): DenoNodeJSTransformerEntrypoint[] {
-		if (!(typeof this.#context.exports === "object" && !Array.isArray(this.#context.exports) && this.#context.exports !== null)) {
+		if (!isJSONObject(this.#context.exports)) {
 			throw new Error(`Configuration file \`${this.#filePath}\` does not contain a valid property \`exports\`!`);
 		}
-		return Object.entries(this.#context.exports).map(([key, value]) => {
+		return Object.entries(this.#context.exports).map(([key, value]: [string, JSONValue]): DenoNodeJSTransformerEntrypoint => {
 			if (typeof value !== "string") {
-				throw new TypeError(`\`${value}\` (export \`${key}\`) is not a valid export!`);
+				throw new TypeError(`\`${value}\` (property \`exports.${key}\`) is not a valid export!`);
 			}
 			return {
 				name: key,
@@ -43,5 +49,6 @@ class MetadataFromConfig {
 	}
 }
 export async function getMetadataFromConfig(filePath: string = "deno.jsonc"): Promise<MetadataFromConfig> {
+	//@ts-ignore Access private constructor.
 	return new MetadataFromConfig(filePath, parseJSONC(await Deno.readTextFile(filePath)));
 }
