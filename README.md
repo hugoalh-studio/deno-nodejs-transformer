@@ -90,7 +90,7 @@ This is a modified edition of the JSR package [`dnt`](https://jsr.io/@deno/dnt) 
   ```
 
 > [!NOTE]
-> - For the full and prettier documentation, can visit via:
+> - For the full or prettier documentation, can visit via:
 >   - [Deno CLI `deno doc`](https://docs.deno.com/runtime/reference/cli/documentation_generator/)
 
 ## ✍️ Examples
