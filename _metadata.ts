@@ -1,4 +1,4 @@
-import { sortCollectionByKeys } from "https://raw.githubusercontent.com/hugoalh/sort-es/v0.4.0/collection.ts";
+import { sortCollectionByKeys } from "jsr:@hugoalh/sort@^0.4.0/collection";
 import type { EntryPoint } from "./_deps.ts";
 export interface MetadataBugs {
 	email?: string;

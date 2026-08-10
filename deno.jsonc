@@ -78,6 +78,10 @@
 			"description": "Publish to JSR."
 		}
 	},
+	"test": {
+		"sanitizeOps": true,
+		"sanitizeResources": true
+	},
 	"unstable": [
 	]
 }

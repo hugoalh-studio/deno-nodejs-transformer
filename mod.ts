@@ -1,11 +1,11 @@
 import {
 	walk,
 	type FSWalkEntry
-} from "https://raw.githubusercontent.com/hugoalh/fs-es/v0.4.0/walk.ts";
+} from "jsr:@hugoalh/fs@^0.4.0/walk";
 import {
 	isJSONObject,
 	type JSONObject
-} from "https://raw.githubusercontent.com/hugoalh/is-json-es/v1.0.6/mod.ts";
+} from "jsr:@hugoalh/is-json@^1.0.6";
 import { copy as copyFS } from "jsr:@std/fs@^1.0.24/copy";
 import { emptyDir as emptyFSDir } from "jsr:@std/fs@^1.0.24/empty-dir";
 import { ensureDir as ensureFSDir } from "jsr:@std/fs@^1.0.24/ensure-dir";
