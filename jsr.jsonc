@@ -7,9 +7,6 @@
 		".": "./mod.ts"
 	},
 	"imports": {
-		"https://raw.githubusercontent.com/hugoalh/fs-es/v0.4.0/walk.ts": "jsr:@hugoalh/fs@^0.4.0/walk",
-		"https://raw.githubusercontent.com/hugoalh/is-json-es/v1.0.6/mod.ts": "jsr:@hugoalh/is-json@^1.0.6",
-		"https://raw.githubusercontent.com/hugoalh/sort-es/v0.4.0/collection.ts": "jsr:@hugoalh/sort@^0.4.0/collection"
 	},
 	"publish": {
 		"exclude": [
