@@ -17,6 +17,7 @@ import {
 	basename as getPathBasename,
 	join as joinPath
 } from "node:path";
+import * as zod from "npm:zod@^4.4.3";
 import {
 	build,
 	type LibName,
@@ -34,6 +35,33 @@ import {
 	resolveDNTShimsOptions,
 	type TransformShimOptions
 } from "./_shims.ts";
+const zodStringNonEmpty = zod.string().nonempty();
+const zodManifestExports = zod.record(zodStringNonEmpty, zodStringNonEmpty);
+class ManifestReader {
+	#content: JSONObject;
+	constructor(content: JSONObject) {
+		this.#content = content;
+	}
+	get _(): JSONObject {
+		return structuredClone(this.#content);
+	}
+	get exports(): Record<string, string> {
+		return structuredClone(zodManifestExports.parse(this.#content.exports));
+	}
+	get name(): string {
+		return structuredClone(zodStringNonEmpty.parse(this.#content.name));
+	}
+	get version(): string {
+		return structuredClone(zodStringNonEmpty.parse(this.#content.version));
+	}
+}
+export async function readManifest(filePath: string): Promise<ManifestReader> {
+	const content: JsonValue = parseJSONC(await Deno.readTextFile(filePath));
+	if (!isJSONObject(content)) {
+		throw new Error(`Invalid manifest format!`);
+	}
+	return new ManifestReader(content);
+}
 export interface TransformCopyEntriesOptions {
 	from: string | RegExp;
 	to: string;
@@ -140,13 +168,6 @@ class ChdirDispose {
 	[Symbol.dispose](): void {
 		Deno.chdir(this.#from);
 	}
-}
-export async function readManifest(filePath: string): Promise<JSONObject> {
-	const manifest: JsonValue = parseJSONC(await Deno.readTextFile(filePath));
-	if (!isJSONObject(manifest)) {
-		throw new Error(`Invalid manifest format!`);
-	}
-	return manifest;
 }
 export async function transform(options: TransformOptions): Promise<void> {
 	const {
