@@ -1,7 +1,7 @@
 {
 	"$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
 	"name": "@hugoalh/deno-nodejs-transformer",
-	"version": "0.9.2",
+	"version": "0.9.3",
 	"license": "MIT",
 	"exports": {
 		".": "./mod.ts"

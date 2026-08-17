@@ -48,6 +48,9 @@ class ManifestReader {
 	get exports(): Record<string, string> {
 		return structuredClone(zodManifestExports.parse(this.#content.exports));
 	}
+	get license(): string {
+		return structuredClone(zodStringNonEmpty.parse(this.#content.license));
+	}
 	get name(): string {
 		return structuredClone(zodStringNonEmpty.parse(this.#content.name));
 	}
